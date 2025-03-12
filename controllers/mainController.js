@@ -31,9 +31,11 @@ exports.getAdminHome = async (req, res) => {
         const users = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         res.render("index", { users, error: null });
     } catch (error) {
+        console.error("Firebase Error:", error); // Log actual error
         res.status(500).send("Error fetching users");
     }
 };
+
 
 exports.addWord = async (req, res) => {
     try {
