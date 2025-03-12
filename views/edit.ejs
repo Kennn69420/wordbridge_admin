@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit User</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex justify-center items-center min-h-screen p-4">
+    <div class="bg-white p-6 shadow-lg rounded-lg w-full max-w-lg">
+        <h1 class="text-3xl font-bold text-center mb-6 text-blue-600">Edit User</h1>
+
+        <form action="/edit/<%= user.id %>" method="POST">
+            <div class="mb-4">
+                <label class="block text-gray-700 font-medium">Word:</label>
+                <input type="text" name="word" value="<%= user.word %>" class="w-full p-2 border rounded focus:outline-blue-500" required>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 font-medium">Language:</label>
+                <select name="language" class="w-full p-2 border rounded focus:outline-blue-500">
+                    <option value="English" <%= user.language === "English" ? "selected" : "" %>>English</option>
+                    <option value="Filipino" <%= user.language === "Filipino" ? "selected" : "" %>>Filipino</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-gray-700 font-medium">Link (GIF or Video):</label>
+                <input type="url" name="link" value="<%= user.link %>" class="w-full p-2 border rounded focus:outline-blue-500" required>
+            </div>
+
+            <% let isGoogleDrive = user.link.includes("drive.google.com"); %>
+            <% let driveFileID = isGoogleDrive ? user.link.match(/id=([^&]+)/) : null; %>
+            <% let driveEmbedLink = driveFileID ? `https://drive.google.com/file/d/${driveFileID[1]}/preview` : user.link; %>
+
+            <% if (isGoogleDrive && driveFileID) { %>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-medium">Preview:</label>
+                    <iframe src="<%= driveEmbedLink %>" width="100%" height="250" class="rounded-md border"></iframe>
+                </div>
+            <% } else if (user.link.endsWith(".gif")) { %>
+                <div class="mb-4">
+                    <label class="block text-gray-700 font-medium">Preview:</label>
+                    <img src="<%= user.link %>" alt="GIF Preview" class="w-full h-auto rounded-md border">
+                </div>
+            <% } %>
+
+            <div class="flex justify-between">
+                <a href="/admin_home" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 transition duration-200">Cancel</a>
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200">Save</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>
