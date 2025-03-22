@@ -28,7 +28,7 @@ exports.getHome = (req, res) => {
 
 exports.getAdminHome = async (req, res) => {
     if (!req.session.user) {
-        return res.redirect("/login"); // Redirect if not logged in
+        return res.redirect("/login"); 
     }
 
     try {

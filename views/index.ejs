@@ -10,7 +10,14 @@
       crossorigin="anonymous"
     ></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
+      .font-opensans {
+        font-family: "Open Sans", sans-serif;
+      }
       .footer-hidden {
         transform: translateY(100%);
         transition: transform 0.3s ease-in-out;
@@ -28,15 +35,15 @@
         <nav>
           <ul class="flex space-x-4">
             <% if (user) { %>
-              <li><a href="/logout" class="hover:underline">Logout</a></li>
-          <% } else { %>
-              <li><a href="/login" class="hover:underline">Login</a></li>
-          <% } %>
-          
+            <li><a href="/logout" class="hover:underline">Logout</a></li>
+            <% } else { %>
+            <li><a href="/login" class="hover:underline">Login</a></li>
+            <% } %>
           </ul>
         </nav>
       </div>
     </header>
+
     <main class="flex-grow container mx-auto p-4 mt-20">
       <% if (users.length > 0) { %>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -102,6 +109,7 @@
       <p class="text-red-500">No users found.</p>
       <% } %>
     </main>
+
     <footer
       id="footer"
       class="bg-[#3B7857] text-white p-4 w-full fixed bottom-0 footer-visible"
@@ -120,6 +128,7 @@
         </div>
       </div>
     </footer>
+
     <script>
       let lastScrollTop = 0;
       const footer = document.getElementById("footer");
@@ -136,56 +145,38 @@
         lastScrollTop = scrollTop;
       });
     </script>
+
+    <script>
+      function confirmDelete(userId) {
+        Swal.fire({
+          title: "Are you sure?",
+          text: "This action cannot be undone!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#d33",
+          cancelButtonColor: "#3085d6",
+          confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            document.getElementById("deleteForm-" + userId).submit();
+          }
+        });
+      }
+    </script>
+
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has("deleted")) {
+        Swal.fire({
+          title: "Deleted!",
+          text: "The user has been successfully deleted.",
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+        const newUrl = window.location.pathname;
+        window.history.replaceState({}, document.title, newUrl);
+      }
+    </script>
   </body>
 </html>
-
-<script>
-  const modal = document.getElementById("modal");
-  const openModalBtn = document.getElementById("openModal");
-  const closeModalBtn = document.getElementById("closeModal");
-
-  openModalBtn.addEventListener("click", () => {
-    modal.classList.remove("hidden");
-  });
-
-  closeModalBtn.addEventListener("click", () => {
-    modal.classList.add("hidden");
-  });
-
-  window.addEventListener("click", (e) => {
-    if (e.target === modal) {
-      modal.classList.add("hidden");
-    }
-  });
-</script>
-<script>
-  function confirmDelete(userId) {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "This action cannot be undone!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#d33",
-      cancelButtonColor: "#3085d6",
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        document.getElementById("deleteForm-" + userId).submit();
-      }
-    });
-  }
-</script>
-<script>
-  const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.has("deleted")) {
-    Swal.fire({
-      title: "Deleted!",
-      text: "The user has been successfully deleted.",
-      icon: "success",
-      timer: 2000,
-      showConfirmButton: false,
-    });
-    const newUrl = window.location.pathname;
-    window.history.replaceState({}, document.title, newUrl);
-  }
-</script>

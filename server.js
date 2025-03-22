@@ -7,6 +7,7 @@ const adminRoutes = require("./routes/mainRoutes");
 // console.log(JSON.stringify(json));
 const session = require("express-session");
 
+app.use(express.static("public"));
 app.use(session({
   secret: "tite",
   resave: false,

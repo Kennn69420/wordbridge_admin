@@ -2,20 +2,16 @@ require("dotenv").config();
 admin = require("firebase-admin");
 const { initializeApp } = require("firebase/app");
 const { getAuth } = require("firebase/auth");
-const { getFirestore } = require("firebase/firestore"); // ✅ Import Firestore correctly
+const { getFirestore } = require("firebase/firestore"); 
 
 let serviceAccount;
 
 if (process.env.FIREBASE_CREDENTIALS) {
-  // Decode base64 from Railway env variable
   serviceAccount = JSON.parse(Buffer.from(process.env.FIREBASE_CREDENTIALS, "base64").toString("utf-8"));
 } else {
-  // Load from file when running locally
   serviceAccount = require("./firebase_wordbridge.json");
 }
 
-
-// Initialize Firebase Admin (for Firestore & Authentication)
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
 });
@@ -30,13 +26,8 @@ const firebaseConfig = {
     measurementId: "G-NH2866WJPQ"
 };
 
-// ✅ Initialize Firebase (Client SDK)
 const firebaseApp = initializeApp(firebaseConfig);
-
-// ✅ Get Firestore instance (Admin SDK)
-const database = admin.firestore(); // Fix: Use admin.firestore() instead of firebaseApp
-
-// ✅ Get Auth instance
+const database = admin.firestore(); 
 const auth = getAuth(firebaseApp);
 
 module.exports = { database, auth };

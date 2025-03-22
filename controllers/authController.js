@@ -10,22 +10,18 @@ exports.postLogin = async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const auth = firebaseAuth.getAuth(); // Get Firebase Auth instance
+        const auth = firebaseAuth.getAuth(); 
 
-        // Sign in user with Firebase Authentication
         const userCredential = await firebaseAuth.signInWithEmailAndPassword(auth, email, password);
 
-        const user = userCredential.user; // Firebase User Object
+        const user = userCredential.user;
 
-        // Store user details in session
         req.session.user = {
             uid: user.uid,
             email: user.email
         };
 
         console.log("User logged in:", user.email);
-
-        // Redirect to admin home
         return res.redirect("/admin_home");
     } catch (error) {
         console.error("Login error:", error.message);
