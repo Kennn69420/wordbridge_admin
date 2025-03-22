@@ -28,8 +28,8 @@
       }
     </style>
   </head>
-  <body class="flex flex-col min-h-screen bg-black text-white">
-    <header class="bg-blue-600 text-white p-4 shadow-md">
+  <body class="flex flex-col min-h-screen bg-white text-[#3B7857]">
+    <header class="bg-[#3B7857] text-white p-4 shadow-md">
       <div class="container mx-auto flex justify-between items-center">
         <h1 class="text-2xl font-bold">WordBridge</h1>
         <nav>
@@ -52,7 +52,7 @@
         ? user.link.match(/id=([^&]+)/) : null; let driveEmbedLink = driveFileID
         ? `https://drive.google.com/file/d/${driveFileID[1]}/preview` :
         user.link; %>
-        <div class="bg-white text-black p-4 shadow-md rounded-lg">
+        <div class="bg-white text-[#3B7857] p-4 shadow-md rounded-lg border border-[#3B7857]">
           <h2 class="text-xl font-bold">ID: <%= user.id %></h2>
           <p><strong>Word:</strong> <%= user.word %></p>
           <p><strong>Language:</strong> <%= user.language %></p>
@@ -62,7 +62,6 @@
             width="100%"
             height="250"
             class="rounded-md"
-            allow="autoplay"
           ></iframe>
           <% } else if (user.link.endsWith(".gif")) { %>
           <img
@@ -163,20 +162,57 @@
         });
       }
     </script>
-
-    <script>
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.has("deleted")) {
-        Swal.fire({
-          title: "Deleted!",
-          text: "The user has been successfully deleted.",
-          icon: "success",
-          timer: 2000,
-          showConfirmButton: false,
-        });
-        const newUrl = window.location.pathname;
-        window.history.replaceState({}, document.title, newUrl);
-      }
-    </script>
   </body>
 </html>
+
+
+
+<!-- <script>
+  let lastScrollTop = 0;
+  const footer = document.getElementById("footer");
+  window.addEventListener("scroll", function () {
+    let scrollTop =
+      window.pageYOffset || document.documentElement.scrollTop;
+    if (scrollTop > lastScrollTop) {
+      footer.classList.remove("footer-visible");
+      footer.classList.add("footer-hidden");
+    } else {
+      footer.classList.remove("footer-hidden");
+      footer.classList.add("footer-visible");
+    }
+    lastScrollTop = scrollTop;
+  });
+</script>
+
+<script>
+  function confirmDelete(userId) {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "This action cannot be undone!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        document.getElementById("deleteForm-" + userId).submit();
+      }
+    });
+  }
+</script>
+
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.has("deleted")) {
+    Swal.fire({
+      title: "Deleted!",
+      text: "The user has been successfully deleted.",
+      icon: "success",
+      timer: 2000,
+      showConfirmButton: false,
+    });
+    const newUrl = window.location.pathname;
+    window.history.replaceState({}, document.title, newUrl);
+  }
+</script> -->
