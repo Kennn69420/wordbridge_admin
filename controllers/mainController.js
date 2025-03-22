@@ -1,4 +1,5 @@
-const database = require("../firebase");
+const { database } = require("../firebase"); 
+
 function convertDriveLink(driveLink) {
     try {
         const url = new URL(driveLink);
@@ -21,20 +22,27 @@ function convertDriveLink(driveLink) {
 };
 
 exports.getHome = (req, res) => {
-    res.redirect("/admin_home");
+    res.redirect("/login");
 }
 
+
 exports.getAdminHome = async (req, res) => {
+    if (!req.session.user) {
+        return res.redirect("/login"); // Redirect if not logged in
+    }
+
     try {
         const usersRef = database.collection("admin");
         const snapshot = await usersRef.get();
         const users = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        res.render("index", { users, error: null });
+
+        res.render("index", { users, user: req.session.user, error: null });
     } catch (error) {
-        console.error("Firebase Error:", error); // Log actual error
+        console.error("Firebase Error:", error);
         res.status(500).send("Error fetching users");
     }
 };
+
 
 
 exports.addWord = async (req, res) => {
@@ -115,6 +123,8 @@ exports.deleteWord = async (req, res) => {
     }
 };
 
+
 exports.getAbout = (req, res) => {
     res.render("about");
 }
+
