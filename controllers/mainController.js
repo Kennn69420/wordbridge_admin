@@ -14,7 +14,7 @@ function convertDriveLink(driveLink) {
             fileId = url.searchParams.get("id");
         }
 
-        return fileId ? `https://drive.google.com/uc?export=view&id=${fileId}` : driveLink;
+        return fileId ? `https://lh3.googleusercontent.com/d/=${fileId}=w1000` : driveLink;
     } catch (error) {
         console.error("Error converting Drive link:", error.message);
         return driveLink;
