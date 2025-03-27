@@ -50,7 +50,7 @@
         <% users.forEach(user => { let isGoogleDrive =
         user.link.includes("drive.google.com"); let driveFileID = isGoogleDrive
         ? user.link.match(/id=([^&]+)/) : null; let driveEmbedLink = driveFileID
-        ? `https://drive.google.com/file/d/${driveFileID[1]}/preview` :
+        ? `https://lh3.googleusercontent.com/d/=${driveFileID[1]}/preview` :
         user.link; %>
         <div class="bg-white text-[#3B7857] p-4 shadow-md rounded-lg border border-[#3B7857]">
           <h2 class="text-xl font-bold">ID: <%= user.id %></h2>
